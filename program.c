@@ -14,22 +14,11 @@ size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
 int main(void) {
     CURL* curl;
     CURLcode res;
-    char city[100];
     char baseurl[100] = "http://api.weatherapi.com/v1/current.json?key=";
     
     strcat(baseurl,api_key);
-    strcat(baseurl,"&q=");
-    
-    printf("Enter the City: \n");
-    scanf("%s",city);
-    
-    
-    strcat(baseurl,city);
-    strcat(baseurl,"&aqi=yes");
-     
-    printf("%s \n",baseurl);
-
-	
+    strcat(baseurl,"&q=Karachi&aqi=yes");
+    	
     // Initialize libcurl
     curl_global_init(CURL_GLOBAL_DEFAULT);	
 	
