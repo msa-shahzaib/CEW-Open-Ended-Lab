@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <curl/curl.h>
 
@@ -7,8 +8,30 @@
 // Callback function to handle the response data
 size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
     size_t realsize = size * nmemb;
-    printf("%.*s", (int)realsize, (char*)contents);
+    FILE *f, *fptr;
+    f = fopen("rawData.txt","w");
+    fprintf(f,"%.*s", (int)realsize, (char*)contents);
+    fclose(f);
     return realsize;
+}
+float get_processed_data(){
+	int i;
+	float uv;
+	FILE *fptr;
+	char content[1024];
+	fptr = fopen("rawData.txt","r");
+	fgets(content,1024,fptr);
+	char *res = strstr(content,"uv"); //searching for uv index	
+	char ch[3];
+	ch[0] = res[4];
+	ch[1] = res[5];
+	ch[2] = res[6];
+	ch[3] = '\0';
+	
+	double temp = strtod(ch,NULL);
+	uv = (float)temp;
+	printf("UV Index: %.1f\n",uv);
+	return uv;
 }
 
 int main(void) {
@@ -44,6 +67,7 @@ int main(void) {
 
     // Cleanup libcurl
     curl_global_cleanup();
-
+    float uv = get_processed_data();
+    
     return 0;
 }
