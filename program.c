@@ -15,7 +15,7 @@ size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
     return realsize;
 }
 
-char* extractDateTime() {
+char* extractTime() {
 	FILE *fileptr;
 	char content[1024];
 	fileptr = fopen("rawData.txt","r");
@@ -23,15 +23,17 @@ char* extractDateTime() {
 	fclose(fileptr);
     	char* start = strstr(content, "\"localtime\":\"");
 	start += strlen("\"localtime\":\"");
-    	char* end = strchr(start, '\"');
-	size_t dateTimeLength = end - start;
-	char *datetime = malloc(dateTimeLength + 1);		
-	strncpy(datetime, start, dateTimeLength);
-	datetime[dateTimeLength] = '\0';
-        printf("Date and time: %s\n", datetime);
-	return datetime;
+	char* space = strchr(start, ' ');		
+    	char* end = strchr(space, '\"');
+	size_t timeLength = end - space - 1;
+	char *time = malloc(timeLength + 1);		
+	strncpy(time, space + 1, timeLength);
+	time[timeLength] = '\0';
+        printf("%s ",time);
+	return time;
 }
-float get_processed_data(){
+
+float extractUVIndex(){
 	int i;
 	float uv;
 	FILE *fptr;
@@ -47,7 +49,7 @@ float get_processed_data(){
 	ch[3] = '\0';
 	double temp = strtod(ch,NULL);
 	uv = (float)temp;
-	printf("UV Index: %.1f\n",uv);
+	printf("%.1f\n",uv);
 	return uv;
 }
 
@@ -84,11 +86,12 @@ int main(void) {
 
     // Cleanup libcurl
     curl_global_cleanup();
-    char *datetime = extractDateTime();
-    float uv = get_processed_data();
+    
+    char *time = extractTime();
+    float uv = extractUVIndex();
     
     FILE* filePtr = fopen("data.txt", "a");
-    fprintf(filePtr, "Current Date and Time: %s\nUV Index: %.1lf\n",datetime,uv);
+    fprintf(filePtr, "%s %.1lf\n",time,uv);
     fclose(filePtr);
     return 0;
 }  
