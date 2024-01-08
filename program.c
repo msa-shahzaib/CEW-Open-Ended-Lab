@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <curl/curl.h>
+#include "mail.h"
 
 #define api_key "993b1d32a2fc4263933142546231612"
 
@@ -36,7 +37,7 @@ char* extractTime() {
 float extractUVIndex(){
 	int i;
 	float uv;
-	FILE *fptr;
+	FILE *fptr,f;
 	char content[1024];
 	fptr = fopen("rawData.txt","r");
 	fgets(content,1024,fptr);
@@ -50,7 +51,11 @@ float extractUVIndex(){
 	double temp = strtod(ch,NULL);
 	uv = (float)temp;
 	printf("%.1f\n",uv);
+	if (uv>6.0){
+		writeMail("mail.txt",uv);
+	}
 	return uv;
+	
 }
 
 int main(void) {
