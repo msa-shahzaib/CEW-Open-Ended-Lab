@@ -9,17 +9,21 @@
 // Callback function to handle the response data
 size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
     size_t realsize = size * nmemb;
-    FILE *f, *fptr;
-    f = fopen("rawData.txt","w");
+    FILE *f;
+    f = fopen("rawData.txt","a");
     fprintf(f,"%.*s", (int)realsize, (char*)contents);
+    fprintf(f,"\n");
     fclose(f);
+    f = fopen("current.txt","w");
+    fprintf(f,"%.*s", (int)realsize, (char*)contents);
+    fclose(f);    
     return realsize;
 }
 
 char* extractTime() {
 	FILE *fileptr;
 	char content[1024];
-	fileptr = fopen("rawData.txt","r");
+	fileptr = fopen("current.txt","r");
 	fgets(content,1024,fileptr);
 	fclose(fileptr);
     	char* start = strstr(content, "\"localtime\":\"");
@@ -39,7 +43,7 @@ float extractUVIndex(){
 	float uv;
 	FILE *fptr,f;
 	char content[1024];
-	fptr = fopen("rawData.txt","r");
+	fptr = fopen("current.txt","r");
 	fgets(content,1024,fptr);
 	fclose(fptr);
 	char *res = strstr(content,"uv");  //searching for uv index	
