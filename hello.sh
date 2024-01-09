@@ -1,4 +1,8 @@
 #!/usr/bin/sh
 
 gcc -o test program.c mail.c -lcurl
-./test
+while :
+do 
+	./test
+	sleep 1h
+done
