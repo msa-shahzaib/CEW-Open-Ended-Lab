@@ -7,5 +7,9 @@ case $1 in
 	;;
 	
 'r')
-	echo "report generated";;
+	true > Report.txt
+	gcc report.c -o report
+	./report
+	echo "\nReport Generated! \n";;
 esac
+
