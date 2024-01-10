@@ -1,0 +1,8 @@
+- - - - - - - - -Daily UV Index Report- - - - - - - - -
+
+
+Current Date: 10-Jan-2024 	 Current Time: 19:55
+
+Average UV Index of the day: '2.7'
+Maximum UV Index was '6.0' at time 12:46
+Minimum UV Index was '1.0' at time 21:31
